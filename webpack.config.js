@@ -8,6 +8,8 @@ module.exports = {
       extensions: ['.ts', '.tsx', '.js', '.jsx','.json'],
     },  
     devServer: {
+        historyApiFallback: true,
+        port: 3000,  
         static: './dist',
     },
     devtool: 'inline-source-map',
