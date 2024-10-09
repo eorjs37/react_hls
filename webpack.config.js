@@ -3,11 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: {
-        index: './src/index.js',
-        print: './src/print.js',
-        another: './src/another-module.js',
-    },
+    entry: './src/index.tsx',
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx','.json'],
+    },  
     devServer: {
         static: './dist',
     },
@@ -28,6 +27,14 @@ module.exports = {
     ],
     module: {
         rules: [
+          {
+            // babel-loader를 이용해 규칙에 적용
+            test: /\.jsx?/,
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env", "@babel/preset-react"],
+            },
+          },
           {
             test: /\.css$/i,
             use: ['style-loader', 'css-loader'],
