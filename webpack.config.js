@@ -11,6 +11,8 @@ module.exports = {
         historyApiFallback: true,
         port: 3000,  
         static: './dist',
+        hot: true,
+        open: true
     },
     devtool: 'inline-source-map',
     output: {
@@ -24,7 +26,7 @@ module.exports = {
     plugins:[
         new HtmlWebpackPlugin({
             title: "HLS REACT",
-            template:'./index.html'
+            template:'./public/index.html'
         })
     ],
     module: {
