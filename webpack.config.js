@@ -32,6 +32,13 @@ module.exports = {
     module: {
         rules: [
           {
+            test: /\.(js|ts|tsx)$/i,
+            exclude: /node_modules/,
+            use: {
+              loader: 'ts-loader',
+            },
+          },
+          {
             // babel-loader를 이용해 규칙에 적용
             test: /\.jsx?/,
             loader: "babel-loader",
