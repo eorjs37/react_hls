@@ -1,12 +1,15 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   env: {
     browser: true,
     es2016: true,
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier', 'react-hooks'],
   // [extends] 프로젝트에 적용할 eslit 규칙셋
   extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:prettier/recommended',
