@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import About from './pages/About'
+import About from './pages/about/About'
 import Home from './pages/Home'
 const App = () => {
   return (

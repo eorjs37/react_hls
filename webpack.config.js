@@ -51,8 +51,20 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          // You have to put in after `css-loader` and before any `pre-precessing loader`
+          'css-modules-typescript-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              importLoaders: 2,
+            },
+          },
+          'scoped-css-loader',
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
