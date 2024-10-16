@@ -4,7 +4,7 @@ const Home = () => {
     <div>
       <nav>
         <ul>
-          <li className={'title'}>
+          <li className={'container'}>
             <Link to={'/about'}>{'About'}</Link>
           </li>
         </ul>

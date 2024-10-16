@@ -1,8 +1,8 @@
-import './About.scoped.css'
-const About = () => {
+import './About.css'
+function About() {
   return (
     <div>
-      <h1 className={'title'}>{'소개'}</h1>
+      <div className={'container'}>{'TEST'}</div>
     </div>
   )
 }

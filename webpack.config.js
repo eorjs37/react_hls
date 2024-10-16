@@ -2,14 +2,13 @@
 const path = require('path')
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports, no-undef
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 // eslint-disable-next-line no-undef
 module.exports = {
   mode: 'development',
   entry: './src/index.tsx',
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-  },
   devServer: {
     historyApiFallback: true,
     port: 3000,
@@ -32,6 +31,7 @@ module.exports = {
       title: 'HLS REACT',
       template: './public/index.html',
     }),
+    new MiniCssExtractPlugin(),
   ],
   module: {
     rules: [
@@ -51,20 +51,21 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
+        test: /\.css$/, // 일반 CSS 파일에 대해 적용
+        exclude: /\.module\.css$/,
         use: [
-          'style-loader',
-          // You have to put in after `css-loader` and before any `pre-precessing loader`
-          'css-modules-typescript-loader',
+          {
+            loader: 'style-loader',
+          },
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
-              importLoaders: 2,
+              modules: true, // CSS 모듈을 활성화합니다.
             },
           },
-          'scoped-css-loader',
         ],
+        // eslint-disable-next-line no-undef
+        include: path.resolve(__dirname, 'src'),
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -83,5 +84,8 @@ module.exports = {
         use: ['xml-loader'],
       },
     ],
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css'],
   },
 }
