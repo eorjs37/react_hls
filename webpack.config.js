@@ -52,7 +52,6 @@ module.exports = {
       },
       {
         test: /\.css$/, // 일반 CSS 파일에 대해 적용
-        exclude: /\.module\.css$/,
         use: [
           {
             loader: 'style-loader',
@@ -60,7 +59,9 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true, // CSS 모듈을 활성화합니다.
+              modules: true,
+              importLoaders: 1,
+              sourceMap: true,
             },
           },
         ],
