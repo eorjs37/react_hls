@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 
 function Counter() {
   const [number, setNumber] = useState(0)
@@ -7,6 +7,7 @@ function Counter() {
     name: '',
     age: 0,
   })
+  const nameInput = useRef<HTMLInputElement>(null)
   const { name, age } = person
 
   const onIncrease = () => {
@@ -25,6 +26,7 @@ function Counter() {
 
   const onReset = () => {
     setText('')
+    nameInput.current?.focus()
   }
 
   const onChangePersonName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +46,7 @@ function Counter() {
       })
     }
   }
+
   return (
     <div>
       <h1>{number}</h1>
@@ -52,7 +55,7 @@ function Counter() {
       <div></div>
       <button onClick={onReset}>{'초기화'}</button>
       <div></div>
-      <input type={'text'} value={text} onChange={onChange} />
+      <input type={'text'} value={text} onChange={onChange} ref={nameInput} />
       <p>{text}</p>
 
       <div></div>
