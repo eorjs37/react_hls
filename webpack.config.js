@@ -52,6 +52,12 @@ module.exports = {
       },
       {
         test: /\.css$/, // 일반 CSS 파일에 대해 적용
+        use: ['style-loader', 'css-loader'],
+        // eslint-disable-next-line no-undef
+        include: path.resolve(__dirname, 'src'),
+      },
+      {
+        test: /\*.module.css$/, // 일반 CSS 파일에 대해 적용
         use: [
           {
             loader: 'style-loader',
