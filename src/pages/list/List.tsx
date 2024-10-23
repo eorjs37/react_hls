@@ -1,6 +1,18 @@
-import { ChangeEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, useMemo, useRef, useState, useCallback } from 'react'
 import ListItem from '../../components/common/List/ListItem'
 import CreateUser from '../../components/Create/CreateUser'
+interface Item {
+  id: number
+  username: string
+  email: string
+  active: boolean
+}
+function countActiveUsers(users: Item[] = []) {
+  console.log('활성자 수를 세는중')
+
+  return users.filter(user => user.active).length
+}
+
 function List() {
   const [inputs, setInputs] = useState({
     username: '',
@@ -27,7 +39,7 @@ function List() {
     },
   ])
   const nextId = useRef(4)
-  const create = () => {
+  const create = useCallback(() => {
     const user = {
       id: nextId.current,
       username: inputs.username,
@@ -40,23 +52,32 @@ function List() {
     })
     setUsers([...users, user])
     nextId.current += 1
-  }
-  const change = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setInputs({
-      ...inputs,
-      [name]: value,
-    })
-  }
+  }, [users, inputs.username, inputs.email])
+  const change = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target
+      setInputs({
+        ...inputs,
+        [name]: value,
+      })
+    },
+    [inputs],
+  )
 
-  const remove = (id: number) => {
-    setUsers(users.filter(user => user.id !== id))
-  }
+  const remove = useCallback(
+    (id: number) => {
+      setUsers(users.filter(user => user.id !== id))
+    },
+    [users],
+  )
 
-  const toggle = (id: number) => {
-    setUsers(users.map(user => (user.id === id ? { ...user, active: !user.active } : user)))
-  }
-
+  const toggle = useCallback(
+    (id: number) => {
+      setUsers(users.map(user => (user.id === id ? { ...user, active: !user.active } : user)))
+    },
+    [users],
+  )
+  const count = useMemo(() => countActiveUsers(users), [users])
   return (
     <div>
       <CreateUser username={inputs.username} email={inputs.email} onCreate={create} onChange={change} />
@@ -65,8 +86,12 @@ function List() {
           return <ListItem key={item.id} item={item} onRemove={remove} onToggle={toggle} />
         })}
       </ul>
+      <div>
+        {'활성자의 수 : '}
+        {count}
+      </div>
     </div>
   )
 }
 
-export default List
+export default React.memo(List)

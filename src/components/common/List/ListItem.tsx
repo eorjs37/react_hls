@@ -1,3 +1,4 @@
+import React from 'react'
 export interface Item {
   id: number
   username: string
@@ -33,4 +34,4 @@ function ListItem({ item, onRemove, onToggle }: ItemProps) {
   )
 }
 
-export default ListItem
+export default React.memo(ListItem)
