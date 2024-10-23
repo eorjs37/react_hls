@@ -1,3 +1,5 @@
+import ListItem from '../../components/common/List/ListItem'
+import CreateUser from '../../components/Create/CreateUser'
 function List() {
   const list = [
     {
@@ -16,23 +18,22 @@ function List() {
       email: 'liz@example.com',
     },
   ]
+
+  const create = () => {}
+  const change = () => {}
+
   return (
-    <ul>
-      {list.map((item) => {
-        if (item.id < 3) {
-          return (
-            <h1 key={item.id}>
-              {item.id}
-              {'/'}
-              {item.username}
-              {'/'}
-              {item.email}
-            </h1>
-          )
-        }
-        return null
-      })}
-    </ul>
+    <div>
+      <CreateUser username={''} email={''} onCreate={create} onChange={change} />
+      <ul>
+        {list.map(item => {
+          if (item.id < 3) {
+            return <ListItem key={item.id} item={item} />
+          }
+          return null
+        })}
+      </ul>
+    </div>
   )
 }
 

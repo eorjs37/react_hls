@@ -44,7 +44,7 @@ module.exports = {
     // 디버그 허용
     'no-debugger': 'off',
     // [error] Delete `␍` prettier/prettier
-    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    'prettier/prettier': ['error', { endOfLine: 'auto', arrowParens: 'avoid' }],
     // [error] Function component is not a function declaration
     'react/function-component-definition': [2, { namedComponents: ['arrow-function', 'function-declaration'] }],
     'react/react-in-jsx-scope': 0,
