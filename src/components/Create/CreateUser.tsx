@@ -1,19 +1,19 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { ChangeEvent } from 'react'
 
 interface CreateUserProps {
   username: string
   email: string
   onCreate: () => void
-  onChange: () => void
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 function CreateUser({ username = '', email = '', onCreate = () => {}, onChange = () => {} }: CreateUserProps) {
-  console.log(onCreate, onChange)
-
   return (
     <div>
-      <input type={'text'} name={'username'} placeholder={'계정명'} value={username} />
-      <input type={'text'} name={'email'} placeholder={'이메일'} value={email} />
+      <input type={'text'} name={'username'} placeholder={'계정명'} value={username} onChange={onChange} />
+      <input type={'text'} name={'email'} placeholder={'이메일'} value={email} onChange={onChange} />
+      <button onClick={onCreate}>{'등록'}</button>
     </div>
   )
 }

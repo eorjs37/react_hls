@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { createContext } from 'react'
+import { createContext, useEffect } from 'react'
 import About from './pages/about/About'
 import Counter from './pages/counter/Counter'
 import Home from './pages/Home'
@@ -7,6 +7,10 @@ import List from './pages/list/List'
 import Header from './components/common/Header/Header'
 const context = createContext('right')
 const App = () => {
+  useEffect(() => {
+    console.log('mount')
+    return () => {}
+  }, [])
   return (
     <context.Provider value={'right'}>
       <Header></Header>
