@@ -1,7 +1,21 @@
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useReducer, useRef, useState } from 'react'
+interface ACTION {
+  type: string
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function reducer(state: any, action: ACTION) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1
+    case 'DECREMENT':
+      return state - 1
+    default:
+      break
+  }
+}
 
 function Counter() {
-  const [number, setNumber] = useState(0)
+  const [number, dispatch] = useReducer(reducer, 0)
   const [text, setText] = useState('')
   const [person, setPerson] = useState({
     name: '',
@@ -11,11 +25,11 @@ function Counter() {
   const { name, age } = person
 
   const onIncrease = () => {
-    setNumber(number + 1)
+    dispatch({ type: 'INCREMENT' })
   }
 
   const onDecrease = () => {
-    setNumber(number - 1)
+    dispatch({ type: 'DECREMENT' })
   }
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

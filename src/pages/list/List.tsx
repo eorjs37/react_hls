@@ -1,24 +1,19 @@
-import React, { ChangeEvent, useMemo, useRef, useState, useCallback } from 'react'
+import React, { ChangeEvent, useMemo, useRef, useCallback, useReducer } from 'react'
 import ListItem from '../../components/common/List/ListItem'
 import CreateUser from '../../components/Create/CreateUser'
-interface Item {
-  id: number
-  username: string
-  email: string
-  active: boolean
-}
+import type { ACTION, Item, STATE } from '../../interface/List.interface'
+
 function countActiveUsers(users: Item[] = []) {
   console.log('활성자 수를 세는중')
-
   return users.filter(user => user.active).length
 }
 
-function List() {
-  const [inputs, setInputs] = useState({
+const initialState = {
+  inputs: {
     username: '',
     email: '',
-  })
-  const [users, setUsers] = useState([
+  },
+  users: [
     {
       id: 1,
       username: 'velopert',
@@ -37,52 +32,100 @@ function List() {
       email: 'liz@example.com',
       active: false,
     },
-  ])
+  ],
+}
+
+function reducer(state: STATE, action: ACTION) {
+  switch (action.type) {
+    case 'CHANGE_INPUT':
+      if (action.name && action.value) {
+        return {
+          ...state,
+          inputs: {
+            ...state.inputs,
+            [action.name]: action.value,
+          },
+        }
+      } else {
+        return state
+      }
+
+    case 'CREATE_USER':
+      return {
+        inputs: initialState.inputs,
+        users: action.user ? state.users.concat(action.user) : state.users,
+      }
+    case 'TOGGLE_USER':
+      if (action.id) {
+        return {
+          ...state,
+          users: state.users.map(user => (user.id === action.id ? { ...user, active: !user.active } : user)),
+        }
+      } else {
+        return state
+      }
+    case 'REMOVE_USER':
+      if (action.id) {
+        return {
+          ...state,
+          users: state.users.filter(user => user.id !== action.id),
+        }
+      } else {
+        return state
+      }
+    default:
+      return state
+  }
+
+  return state
+}
+
+function List() {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { users } = state
+  const { email, username } = state.inputs
   const nextId = useRef(4)
   const create = useCallback(() => {
-    const user = {
-      id: nextId.current,
-      username: inputs.username,
-      email: inputs.email,
-      active: false,
-    }
-    setInputs({
-      username: '',
-      email: '',
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        username,
+        email,
+        active: false,
+      },
     })
-    setUsers([...users, user])
     nextId.current += 1
-  }, [users, inputs.username, inputs.email])
-  const change = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target
-      setInputs({
-        ...inputs,
-        [name]: value,
-      })
-    },
-    [inputs],
-  )
+  }, [username, email])
+  const change = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    dispatch({
+      type: 'CHANGE_INPUT',
+      name,
+      value,
+    })
+  }, [])
 
-  const remove = useCallback(
-    (id: number) => {
-      setUsers(users.filter(user => user.id !== id))
-    },
-    [users],
-  )
+  const remove = useCallback((id: number) => {
+    dispatch({
+      type: 'REMOVE_USER',
+      id,
+    })
+  }, [])
 
-  const toggle = useCallback(
-    (id: number) => {
-      setUsers(users.map(user => (user.id === id ? { ...user, active: !user.active } : user)))
-    },
-    [users],
-  )
+  const toggle = useCallback((id: number) => {
+    dispatch({
+      type: 'TOGGLE_USER',
+      id,
+    })
+  }, [])
   const count = useMemo(() => countActiveUsers(users), [users])
+
   return (
     <div>
-      <CreateUser username={inputs.username} email={inputs.email} onCreate={create} onChange={change} />
+      <CreateUser username={username} email={email} onCreate={create} onChange={change} />
       <ul>
-        {users.map(item => {
+        {state.users.map(item => {
           return <ListItem key={item.id} item={item} onRemove={remove} onToggle={toggle} />
         })}
       </ul>
