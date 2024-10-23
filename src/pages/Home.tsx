@@ -7,6 +7,9 @@ const Home = () => {
           <li className={'container'}>
             <Link to={'/about'}>{'About'}</Link>
           </li>
+          <li className={'container'}>
+            <Link to={'/counter'}>{'Counter'}</Link>
+          </li>
         </ul>
       </nav>
     </div>
