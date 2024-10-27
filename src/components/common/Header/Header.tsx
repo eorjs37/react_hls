@@ -4,7 +4,9 @@ function Header() {
   return (
     <header className={styles.header}>
       <h1>
-        <Link to={'/'}>{'HEADER'}</Link>
+        <Link to={'/'} className={'link'}>
+          {'HEADER'}
+        </Link>
       </h1>
     </header>
   )

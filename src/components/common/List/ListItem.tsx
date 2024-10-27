@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { UserDispatch } from '../../../pages/list/List'
 export interface Item {
   id: number
   username: string
@@ -8,10 +9,10 @@ export interface Item {
 
 type ItemProps = {
   item: Item
-  onRemove: (id: number) => void
-  onToggle: (id: number) => void
 }
-function ListItem({ item, onRemove, onToggle }: ItemProps) {
+function ListItem({ item }: ItemProps) {
+  const dispatch = useContext(UserDispatch)
+
   return (
     <p>
       <b
@@ -21,7 +22,14 @@ function ListItem({ item, onRemove, onToggle }: ItemProps) {
           cursor: 'pointer',
           color: item.active ? 'green' : 'blue',
         }}
-        onClick={() => onToggle(item.id)}
+        onClick={() => {
+          if (dispatch) {
+            dispatch({
+              type: 'TOGGLE_USER',
+              id: item.id,
+            })
+          }
+        }}
       >
         {item.id}
       </b>
@@ -29,7 +37,18 @@ function ListItem({ item, onRemove, onToggle }: ItemProps) {
       {item.username}
       {'/'}
       {item.email}
-      <button onClick={() => onRemove(item.id)}>{'삭제'}</button>
+      <button
+        onClick={() => {
+          if (dispatch) {
+            dispatch({
+              type: 'REMOVE_USER',
+              id: item.id,
+            })
+          }
+        }}
+      >
+        {'삭제'}
+      </button>
     </p>
   )
 }

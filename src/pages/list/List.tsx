@@ -1,8 +1,12 @@
-import React, { ChangeEvent, useMemo, useRef, useCallback, useReducer } from 'react'
+import React, { useMemo, useRef, useCallback, useReducer, Dispatch } from 'react'
 import ListItem from '../../components/common/List/ListItem'
 import CreateUser from '../../components/Create/CreateUser'
 import type { ACTION, Item, STATE } from '../../interface/List.interface'
 import useInputs from '../../hooks/useInputs'
+
+type ListDispatch = Dispatch<ACTION>
+export const UserDispatch = React.createContext<ListDispatch | null>(null)
+
 function countActiveUsers(users: Item[] = []) {
   console.log('활성자 수를 세는중')
   return users.filter(user => user.active).length
@@ -35,57 +39,59 @@ const initialState = {
   ],
 }
 
-function reducer(state: STATE, action: ACTION) {
-  switch (action.type) {
-    case 'CHANGE_INPUT':
-      if (action.name && action.value) {
-        return {
-          ...state,
-          inputs: {
-            ...state.inputs,
-            [action.name]: action.value,
-          },
+function reducer(state: STATE, action: ACTION | null) {
+  if (action) {
+    switch (action.type) {
+      case 'CHANGE_INPUT':
+        if (action.name && action.value) {
+          return {
+            ...state,
+            inputs: {
+              ...state.inputs,
+              [action.name]: action.value,
+            },
+          }
+        } else {
+          return state
         }
-      } else {
-        return state
-      }
 
-    case 'CREATE_USER':
-      return {
-        inputs: initialState.inputs,
-        users: action.user ? state.users.concat(action.user) : state.users,
-      }
-    case 'TOGGLE_USER':
-      if (action.id) {
+      case 'CREATE_USER':
         return {
-          ...state,
-          users: state.users.map(user => (user.id === action.id ? { ...user, active: !user.active } : user)),
+          inputs: initialState.inputs,
+          users: action.user ? state.users.concat(action.user) : state.users,
         }
-      } else {
-        return state
-      }
-    case 'REMOVE_USER':
-      if (action.id) {
-        return {
-          ...state,
-          users: state.users.filter(user => user.id !== action.id),
+      case 'TOGGLE_USER':
+        if (action.id) {
+          return {
+            ...state,
+            users: state.users.map(user => (user.id === action.id ? { ...user, active: !user.active } : user)),
+          }
+        } else {
+          return state
         }
-      } else {
+      case 'REMOVE_USER':
+        if (action.id) {
+          return {
+            ...state,
+            users: state.users.filter(user => user.id !== action.id),
+          }
+        } else {
+          return state
+        }
+      default:
         return state
-      }
-    default:
-      return state
+    }
   }
 
   return state
 }
 
 function List() {
-  const [{username, email},change,reset] = useInputs({
-    username:'',
-    email:''
+  const [{ username, email }, change, reset] = useInputs({
+    username: '',
+    email: '',
   })
-  
+
   const [state, dispatch] = useReducer(reducer, initialState)
   const { users } = state
   const nextId = useRef(4)
@@ -99,37 +105,27 @@ function List() {
         active: false,
       },
     })
+    reset()
     nextId.current += 1
-    }, [username, email])
+  }, [username, email, reset])
 
-  const remove = useCallback((id: number) => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id,
-    })
-  }, [])
-
-  const toggle = useCallback((id: number) => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id,
-    })
-  }, [])
   const count = useMemo(() => countActiveUsers(users), [users])
 
   return (
-    <div>
-      <CreateUser username={username} email={email} onCreate={create} onChange={change} />
-      <ul>
-        {state.users.map(item => {
-          return <ListItem key={item.id} item={item} onRemove={remove} onToggle={toggle} />
-        })}
-      </ul>
+    <UserDispatch.Provider value={dispatch}>
       <div>
-        {'활성자의 수 : '}
-        {count}
+        <CreateUser username={username} email={email} onCreate={create} onChange={change} />
+        <ul>
+          {state.users.map(item => {
+            return <ListItem key={item.id} item={item} />
+          })}
+        </ul>
+        <div>
+          {'활성자의 수 : '}
+          {count}
+        </div>
       </div>
-    </div>
+    </UserDispatch.Provider>
   )
 }
 
