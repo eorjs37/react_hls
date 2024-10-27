@@ -2,7 +2,7 @@ import React, { ChangeEvent, useMemo, useRef, useCallback, useReducer } from 're
 import ListItem from '../../components/common/List/ListItem'
 import CreateUser from '../../components/Create/CreateUser'
 import type { ACTION, Item, STATE } from '../../interface/List.interface'
-
+import useInputs from '../../hooks/useInputs'
 function countActiveUsers(users: Item[] = []) {
   console.log('활성자 수를 세는중')
   return users.filter(user => user.active).length
@@ -81,9 +81,13 @@ function reducer(state: STATE, action: ACTION) {
 }
 
 function List() {
+  const [{username, email},change,reset] = useInputs({
+    username:'',
+    email:''
+  })
+  
   const [state, dispatch] = useReducer(reducer, initialState)
   const { users } = state
-  const { email, username } = state.inputs
   const nextId = useRef(4)
   const create = useCallback(() => {
     dispatch({
@@ -96,15 +100,7 @@ function List() {
       },
     })
     nextId.current += 1
-  }, [username, email])
-  const change = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value,
-    })
-  }, [])
+    }, [username, email])
 
   const remove = useCallback((id: number) => {
     dispatch({
