@@ -1,38 +1,38 @@
-const { app, BrowserWindow } = await import('electron')
-const path = await import('path')
-const isDev = await import('electron-is-dev')
+const { app,BrowserWindow} = require('electron')
 
-let mainWindow
-
-function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 900,
-    height: 680,
+function createWindow(){
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
     webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
-      devTools: isDev,
-    },
+      nodeIntegration: true
+    }
   })
+  
+  
 
-  // eslint-disable-next-line no-undef
-  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`)
-
-  if (isDev) mainWindow.webContents.openDevTools({ mode: 'detach' })
-
-  mainWindow.setResizable(true)
-  mainWindow.on('closed', () => {
-    mainWindow = null
-    app.quit()
+  win.loadFile('./dist/index.html')
+  win.webContents.session.webRequest.onHeadersReceived((details, callback)=>{
+     callback({
+      responseHeaders:{
+        ...details.responseHeaders,
+        'Content-Security-Policy': ["default-src 'self'; style-src 'self' 'unsafe-inline'"]
+      }
+     })
   })
-  mainWindow.focus()
+  win.webContents.openDevTools()
 }
 
-app.on('ready', createWindow)
-app.on('activate', () => {
-  if (mainWindow === null) createWindow()
-})
+app.whenReady().then(createWindow)
+
 app.on('window-all-closed', () => {
-  // eslint-disable-next-line no-undef
-  if (process.platform !== 'darwin') app.quit()
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
 })
