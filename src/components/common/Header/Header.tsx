@@ -5,7 +5,7 @@ function Header() {
     <header className={styles.header}>
       <h1>
         <Link to={'/'} className={'link'}>
-          {'HEADER'}
+          {'HEADER11'}
         </Link>
       </h1>
     </header>

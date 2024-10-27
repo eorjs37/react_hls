@@ -14,7 +14,7 @@ module.exports = {
     port: 3000,
     static: './dist',
     hot: true,
-    open: true,
+    liveReload: false,
   },
   devtool: 'inline-source-map',
   output: {

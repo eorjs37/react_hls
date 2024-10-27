@@ -10,9 +10,9 @@
     "build": "webpack",
     "tsc": "tsc",
     "tsc-init": "tsc --init",
-    "electorn-start":"concurrently \"npm run start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electorn-dev":"webpack && electorn .",
-    "build:win":"npm run build && electron-builder --win --x64"
+    "electorn-start": "concurrently \"npm run wait\" \"npm run start\"",
+    "wait": "wait-on --timeout 10000 --interval 5000 -v tcp:127.0.0.1:3000 && electron .",
+    "build:win": "npm run build && electron-builder --win --x64"
   },
   "author": "CHOI DAE GEON",
   "license": "ISC",
@@ -31,6 +31,7 @@
     "csv-loader": "^3.0.5",
     "electron": "^33.0.2",
     "electron-builder": "^25.1.8",
+    "electron-devtools-installer": "^3.2.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
