@@ -1,5 +1,11 @@
 import { Link } from 'react-router-dom'
 const Home = () => {
+  const init = () => {
+    console.log('init')
+  }
+
+  init()
+
   return (
     <div>
       <nav>
@@ -16,7 +22,11 @@ const Home = () => {
         </ul>
       </nav>
       <div>
-        <video src={'https://daegeon-everybody.s3.ap-northeast-2.amazonaws.com/video/video1.mp4'} controls></video>
+        <video
+          src={'https://daegeon-everybody.s3.ap-northeast-2.amazonaws.com/video/video1.mp4'}
+          controls
+          autoPlay
+        ></video>
       </div>
     </div>
   )

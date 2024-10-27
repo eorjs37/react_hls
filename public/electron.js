@@ -32,7 +32,7 @@ function createWindow() {
     callback({
       responseHeaders: {
         ...details.responseHeaders,
-        'Content-Security-Policy': ["default-src 'self'; style-src 'self' 'unsafe-inline'"],
+        'Content-Security-Policy': ["default-src 'self'; style-src 'self' 'unsafe-inline'; media-src *"],
       },
     })
   })
