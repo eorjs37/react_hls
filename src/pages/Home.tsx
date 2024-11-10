@@ -19,15 +19,11 @@ const Home = () => {
           <li className={'container'}>
             <Link to={'/list'}>{'List'}</Link>
           </li>
+          <li className={'container'}>
+            <Link to={'/memo'}>{'Memo'}</Link>
+          </li>
         </ul>
       </nav>
-      <div>
-        <video
-          src={'https://daegeon-everybody.s3.ap-northeast-2.amazonaws.com/video/video1.mp4'}
-          controls
-          autoPlay
-        ></video>
-      </div>
     </div>
   )
 }

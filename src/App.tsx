@@ -4,6 +4,7 @@ import About from './pages/about/About'
 import Counter from './pages/counter/Counter'
 import Home from './pages/Home'
 import List from './pages/list/List'
+import Memo from './pages/memo/Memo'
 import Header from './components/common/Header/Header'
 const context = createContext('right')
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Route path={'/about'} element={<About />}></Route>
           <Route path={'/counter'} element={<Counter />}></Route>
           <Route path={'/list'} element={<List />}></Route>
+          <Route path={'/memo'} element={<Memo />}></Route>
         </Routes>
       </div>
     </context.Provider>
