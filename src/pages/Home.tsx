@@ -22,6 +22,9 @@ const Home = () => {
           <li className={'container'}>
             <Link to={'/memo'}>{'Memo'}</Link>
           </li>
+          <li className={'container'}>
+            <Link to={'/dummy'}>{'Dummy'}</Link>
+          </li>
         </ul>
       </nav>
     </div>
