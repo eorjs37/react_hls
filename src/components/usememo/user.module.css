@@ -1,0 +1,7 @@
+.list{
+    background-color: aliceblue;
+}
+
+.list.dark{
+    background-color: black;
+}

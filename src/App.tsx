@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import List from './pages/list/List'
 import Memo from './pages/memo/Memo'
 import Header from './components/common/Header/Header'
+import UseMemo from './pages/usememo/UseMemo'
 const context = createContext('right')
 const App = () => {
   useEffect(() => {
@@ -22,6 +23,7 @@ const App = () => {
           <Route path={'/counter'} element={<Counter />}></Route>
           <Route path={'/list'} element={<List />}></Route>
           <Route path={'/memo'} element={<Memo />}></Route>
+          <Route path={'/usememo'} element={<UseMemo />} />
         </Routes>
       </div>
     </context.Provider>
