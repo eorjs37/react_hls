@@ -1,11 +1,6 @@
 import { Link } from 'react-router-dom'
+import Counter from '../components/home/Counter'
 const Home = () => {
-  const init = () => {
-    console.log('init')
-  }
-
-  init()
-
   return (
     <div>
       <nav>
@@ -25,8 +20,15 @@ const Home = () => {
           <li className={'container'}>
             <Link to={'/dummy'}>{'Dummy'}</Link>
           </li>
+          <li className={'container'}>
+            <Link to={'/usememo'}>{'UseMemo'}</Link>
+          </li>
         </ul>
       </nav>
+      <main>
+        <Counter />
+        <section></section>
+      </main>
     </div>
   )
 }
