@@ -8,6 +8,7 @@ import Memo from './pages/memo/Memo'
 import Dummy from './pages/dummy/Dummy'
 import Header from './components/common/Header/Header'
 import UseMemo from './pages/usememo/UseMemo'
+import Hls from './pages/hls/Hls'
 const context = createContext('right')
 const App = () => {
   useEffect(() => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path={'/memo'} element={<Memo />}></Route>
           <Route path={'/dummy'} element={<Dummy />}></Route>
           <Route path={'/usememo'} element={<UseMemo />} />
+          <Route path={'/hls'} element={<Hls />} />
         </Routes>
       </div>
     </context.Provider>

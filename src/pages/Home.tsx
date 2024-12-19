@@ -23,6 +23,9 @@ const Home = () => {
           <li className={'container'}>
             <Link to={'/usememo'}>{'UseMemo'}</Link>
           </li>
+          <li className={'container'}>
+            <Link to={'/hls'}>{'Hls'}</Link>
+          </li>
         </ul>
       </nav>
       <main>
