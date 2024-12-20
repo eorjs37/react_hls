@@ -1,0 +1,11 @@
+.button_style {
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1;
+  box-sizing: border-box;
+  cursor: pointer;
+}
